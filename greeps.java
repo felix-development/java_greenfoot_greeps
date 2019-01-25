@@ -4,8 +4,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, and Greenfoot)
 /**
  * A Greep is an alien creature that likes to collect tomatoes.
  * 
- * @author (your name here)
- * @version 0.1
+ * @ author Felix Patryjas (@felix-development), Leo Mühlenhoff (@lm-development)
+ * @ version 0.1 release
+ * @ Current State: Working in progress
+ *
  */
 
 
@@ -35,18 +37,18 @@ public class Greep extends Creature
     }
  
     
-    /**
+     /**
      * Do what a greep's gotta do.Our edited source code is "WIP", so don't expect it to work properly. 
      * The total score seems pretty random but it should be always something between 30 and 50 tomatoes.
      * Map 1 & Map 2 are working fine while there are still problems on Map 3 with passing the Water and World Edges.
      * You have to run the scenario a few times if you want to debug the source code. 
      * 
-     * Current High Score: 19:23:  [ 30 27  0]  57  -- Felix
+     * Current High Score: 21:24:  [ 33 22  9]  64  -- Leo
      */
     public void act() 
-    {             
+    {
         super.act();   // Do not delete! Leave as first statement in act().
-      
+        
         if(onFood()) {
             checkFood();
             boolean carryingTomato = true; // Set flag carryingTomato true when a tomato was found.
@@ -55,13 +57,22 @@ public class Greep extends Creature
         if (carryingTomato()) {
             if(atShip()) {
                 dropTomato();
+             
+                move();
+                
+                checkFood();
+                onFood();
             }
             if(!atShip()) {
                 turnHome();
-                if(atWater()) { // Needs to be set here aswell when trying to turn home.
-                    turn(45);   // This is a dirty workaround and will be replaced soon.
-                }             
+                if(atWater()) {
+                    turn(145);   // Turn 145° in order to catch some tomatoes on Map 3.
+                }
+                if(isAtEdge()) {
+                    turn(145);
+                }                    
                 move();
+                
             }
         }
         
@@ -70,6 +81,7 @@ public class Greep extends Creature
         if( tomatoes ==  null) {
             move();
             checkFood();
+            onFood();
         }
         else {
             return;
@@ -86,7 +98,7 @@ public class Greep extends Creature
             turn(45);
         }
         
-        if(atWorldEdge()) {
+        if(isAtEdge()) {
             turn(45);
         }
     }
@@ -138,6 +150,7 @@ public class Greep extends Creature
         else
             return "greep.png";
     } 
-    
-    
 }
+    
+    
+    

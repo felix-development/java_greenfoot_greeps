@@ -148,7 +148,7 @@ public class Greep extends Creature
      */
     public static String getAuthorName()
     {
-        return "Felix";  // write your name here!
+        return "Felix/Leo";  // write your name here!
     }
 
 

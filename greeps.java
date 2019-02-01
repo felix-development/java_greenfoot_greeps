@@ -43,10 +43,11 @@ public class Greep extends Creature
      * Map 1 & Map 2 are working fine while there are still problems on Map 3 with passing the Water and World Edges.
      * You have to run the scenario a few times if you want to debug the source code. 
      * 
-     * Current High Score: 21:24:  [ 33 22  9]  64  -- Leo
+     * Current High Score: 96- February 1  -- Leo
      */
     public void act() 
     {
+        TomatoPile tomatoes = (TomatoPile) getOneIntersectingObject(TomatoPile.class);
         super.act();   // Do not delete! Leave as first statement in act().
         
         if(onFood()) {
@@ -55,30 +56,41 @@ public class Greep extends Creature
         }
         
         if (carryingTomato()) {
+            spit("purple");
             if(atShip()) {
                 dropTomato();
                 turn(180);
                 move();
-                
                 checkFood();
                 onFood();
             }
             if(!atShip()) {
                 turnHome();
+           
                 if(atWater()) {
-                    turn(145);   // Turn 145° in order to catch some tomatoes on Map 3.
+                    turn(Greenfoot.getRandomNumber(145));   // Turn 145° in order to catch some tomatoes on Map 3.
                 }
                 if(isAtEdge()) {
-                    turn(145);
+                    turn(Greenfoot.getRandomNumber(145));
                 }                    
                 move();
                 
             }
+            
+            
         }
+        if ((seePaint("purple")) && !carryingTomato() && tomatoes ==null && (!atWater())  && (!atWorldEdge())) { turnHome(); turn(180); spit("orange");}
         
-        TomatoPile tomatoes = (TomatoPile) getOneIntersectingObject(TomatoPile.class);
-        
-        if( tomatoes ==  null) {
+        if ((!seePaint("orange")) && (!seePaint("purple"))) {if (randomChance(30) == true) {
+                        if (randomChance(50) == true) {
+                            turn(0);
+                        }
+                        else {
+                            turn(-10);
+                        }}
+                    }
+   
+       if( tomatoes ==  null) {
             move();
             checkFood();
             onFood();
@@ -97,6 +109,7 @@ public class Greep extends Creature
         if(atWater()) { // This needs to be set for general actions.
             turn(45);
         }
+        
         
         if(isAtEdge()) {
             turn(45);
